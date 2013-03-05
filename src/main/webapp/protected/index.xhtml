@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   template="/templates/default.xhtml">
+	<ui:define name="content">
+   
+	<h:form id="cadastro-ambiente" >
+		<fieldset >
+			<legend>Maquina</legend>
+
+	   		<h:panelGrid id="cadastro_ambiente_panel" columns="2">
+				<h:outputLabel value="IP" />
+				<h:inputText id="ip_maquina" value="#{ambienteVisao.maquina.ip}" />
+				<h:outputLabel value="Ambiente"/>
+				<h:selectOneMenu id="ambiente" value="#{ambienteVisao.maquina.ambiente}" >
+				    <f:selectItems value="#{ambienteVisao.statusArray}" />
+				</h:selectOneMenu>
+			</h:panelGrid>
+		</fieldset>
+		
+		<fieldset>
+			<legend>Servidores de Aplicacao</legend>
+				<h:panelGroup id="servidores" layout="block">
+					<ui:repeat  value="#{ambienteVisao.maquina.servidoresAplicacao}" var="servidor">
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Nome" />
+							<h:inputText id="sa_nome" value="#{servidor.nome}"/>
+							<h:outputLabel for="sa_versao" value="Versao" />
+							<h:inputText id="sa_versao" value="#{servidor.versao}"/>
+						</h:panelGrid>
+						
+						<fieldset>
+							<legend>Aplicacoes</legend>
+							<h:panelGroup id="aplicacoes">
+								<ui:repeat var="aplicacao" value="#{servidor.aplicacoes}">
+									<h:outputText value="Nome" />
+									<h:inputText value="#{aplicacao.nome}" />
+									<h:outputText value="Responsavel" />
+									<h:inputText value="#{aplicacao.responsavel}" />
+								</ui:repeat>
+							</h:panelGroup>
+							
+							<h:commandButton value="Adicionar Aplicacao">
+								<f:ajax execute="@form" event="action" render="aplicacoes" listener="#{ambienteVisao.adicionarAplicacao(servidor)}"/>
+							</h:commandButton>					
+						</fieldset>
+					</ui:repeat>
+						
+					<h:commandButton value="Adicionar Servidores">
+						<f:ajax execute="@form" event="action" render="servidores" listener="#{ambienteVisao.adicionarServidor}"/>
+					</h:commandButton>					
+				</h:panelGroup>
+		</fieldset>
+		
+		<h:commandButton value="Salvar" action="#{ambienteVisao.salvar}" />
+	</h:form>
+	</ui:define>
+</ui:composition>
