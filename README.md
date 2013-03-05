@@ -1,4 +1,4 @@
-eap6-jaas-example
+Exemplo JAAS com EAP 6 ou AS 7
 =================
 
 # Setup:
